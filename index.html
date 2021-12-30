@@ -7,9 +7,15 @@
     <script src="wallet.js"></script>
     <script src="dola.js"></script>
     <script src="hat.js"></script>
+    <style>
+        button, body {
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<h1>Get Money</h1>
+<button onclick="location.reload()">Play again</button>
+<div></div>
 <canvas id='canvas' width="600" height="700" style="border:solid 1px"></canvas>
 <script>
     let $ = 0
@@ -17,7 +23,7 @@
     let ctx = canvas.getContext('2d')
     let backGround = new BackGround(0, 0, 600, 700, 'img/3508.jpg_wh860.jpg')
     backGround.drawBackGround(ctx, $);
-    let wallet = new Wallet(Math.random() * 200, 618, 140, 80, 80, 'img/wallet.jpg')
+    let wallet = new Wallet(Math.random() * 200, 618, 140, 80, 40, 'img/wallet.jpg')
     wallet.drawWallet(ctx);
     let dola = new Dola(Math.random() * 200, Math.random() * 200, 70, 40, 'img/10 usd.jpg')
     dola.drawDola(ctx)
@@ -65,28 +71,36 @@
 
     function updateCanvas() {
         clearCanvas()
+
         backGround.drawBackGround(ctx, $)
         wallet.drawWallet(ctx)
         dola.drawDola(ctx)
         hat.drawHat(ctx)
+        if ($ < 0) {
+            ctx.fillText('GAME OVER', 300, 300)
+            clearInterval(moveDola,80)
+            clearInterval(moveHat,80)
+        }
     }
 
     function money() {
         if (wallet.y < dola.y) {
-            if (wallet.x <= dola.x && dola.x <= wallet.x + 70) {
+            if (wallet.x <= dola.x && dola.x <= wallet.x + 80) {
                 $ += 1
             }
         }
-            if (wallet.y < hat.y) {
-                if (wallet.x <= hat.x && dola.x <= hat.x + 70) {
-                    $ -= 1
-                }
+        if (wallet.y < hat.y) {
+            if (wallet.x <= hat.x && dola.x <= hat.x + 80) {
+                $ -= 1
             }
         }
 
-        document.addEventListener('keydown', moveWallet)
-        setInterval(moveDola, 80)
-        setInterval(moveHat, 80)
+    }
+
+
+    document.addEventListener('keydown', moveWallet)
+    setInterval(moveDola, 80)
+    setInterval(moveHat, 80)
 
 </script>
 </body>
