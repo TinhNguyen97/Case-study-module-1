@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Study Module 1 Get Money</title>
+    <script src="BackGround.js"></script>
+    <script src="wallet.js"></script>
+    <script src="dola.js"></script>
+    <script src="hat.js"></script>
+</head>
+<body>
+<h1>Get Money</h1>
+<canvas id='canvas' width="600" height="700" style="border:solid 1px"></canvas>
+<script>
+    let $ = 0
+    let canvas = document.getElementById('canvas')
+    let ctx = canvas.getContext('2d')
+    let backGround = new BackGround(0, 0, 600, 700, 'img/3508.jpg_wh860.jpg')
+    backGround.drawBackGround(ctx, $);
+    let wallet = new Wallet(Math.random() * 200, 618, 140, 80, 80, 'img/wallet.jpg')
+    wallet.drawWallet(ctx);
+    let dola = new Dola(Math.random() * 200, Math.random() * 200, 70, 40, 'img/10 usd.jpg')
+    dola.drawDola(ctx)
+    let hat = new Hat(100, 200, 50, 40, 'img/hat.jpg')
+    hat.drawHat(ctx)
+
+    function moveDola() {
+        dola.moveDown()
+        money()
+        updateCanvas()
+        if (dola.y > wallet.y) {
+            dola.y = 0
+            dola.x = Math.random() * 460
+        }
+
+    }
+
+    function moveHat() {
+        hat.moveDown()
+        money()
+        updateCanvas()
+        if (hat.y > wallet.y) {
+            hat.y = 0
+            hat.x = Math.random() * 460
+        }
+
+    }
+
+    function moveWallet(event) {
+        switch (event.keyCode) {
+            case 37: {
+                wallet.moveLeft()
+                break
+            }
+            case 39:
+                wallet.moveRight()
+                break
+        }
+        updateCanvas()
+    }
+
+    function clearCanvas() {
+        ctx.clearRect(0, 0, 600, 700)
+    }
+
+    function updateCanvas() {
+        clearCanvas()
+        backGround.drawBackGround(ctx, $)
+        wallet.drawWallet(ctx)
+        dola.drawDola(ctx)
+        hat.drawHat(ctx)
+    }
+
+    function money() {
+        if (wallet.y < dola.y) {
+            if (wallet.x <= dola.x && dola.x <= wallet.x + 70) {
+                $ += 1
+            }
+        }
+            if (wallet.y < hat.y) {
+                if (wallet.x <= hat.x && dola.x <= hat.x + 70) {
+                    $ -= 1
+                }
+            }
+        }
+
+        document.addEventListener('keydown', moveWallet)
+        setInterval(moveDola, 80)
+        setInterval(moveHat, 80)
+
+</script>
+</body>
+</html>
