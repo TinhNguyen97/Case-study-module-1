@@ -19,11 +19,12 @@
 <canvas id='canvas' width="600" height="700" style="border:solid 1px"></canvas>
 <script>
     let $ = 0
+    let isGameOver=false
     let canvas = document.getElementById('canvas')
     let ctx = canvas.getContext('2d')
     let backGround = new BackGround(0, 0, 600, 700, 'img/3508.jpg_wh860.jpg')
     backGround.drawBackGround(ctx, $);
-    let wallet = new Wallet(Math.random() * 200, 618, 140, 80, 40, 'img/wallet.jpg')
+    let wallet = new Wallet(Math.random() *200, 618, 140, 80, 40, 'img/wallet.jpg')
     wallet.drawWallet(ctx);
     let dola = new Dola(Math.random() * 200, Math.random() * 200, 70, 40, 'img/10 usd.jpg')
     dola.drawDola(ctx)
@@ -76,11 +77,6 @@
         wallet.drawWallet(ctx)
         dola.drawDola(ctx)
         hat.drawHat(ctx)
-        if ($ < 0) {
-            ctx.fillText('GAME OVER', 300, 300)
-            clearInterval(moveDola,80)
-            clearInterval(moveHat,80)
-        }
     }
 
     function money() {
@@ -91,12 +87,23 @@
         }
         if (wallet.y < hat.y) {
             if (wallet.x <= hat.x && dola.x <= hat.x + 80) {
-                $ -= 1
+                $ -= 1;
             }
         }
+        // if($<0)
+        // {
+        //     gameOver()
+        // }
 
     }
-
+    // function gameOver() {
+    //     let image = new Image();
+    //     image.src ="./img/gameover.jpg"
+    //     image.onload=function ()
+    //     {
+    //         ctx.drawImage(image,230,230,150,150)
+    //     }
+    // }
 
     document.addEventListener('keydown', moveWallet)
     setInterval(moveDola, 80)
